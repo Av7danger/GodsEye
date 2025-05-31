@@ -9,3 +9,4 @@ load_dotenv()
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+FACT_CHECK_API_KEY = os.getenv('FACT_CHECK_API_KEY')  # Google Fact Check API key

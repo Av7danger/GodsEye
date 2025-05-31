@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GodsEye - Advanced Settings</title>
+  <link rel="stylesheet" href="popup/popup.css">
+  <style>
+    body {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    h1 img {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .settings-section {
+      margin-bottom: 30px;
+    }
+    
+    h2 {
+      font-size: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      margin: 20px 0 15px 0;
+    }
+    
+    .setting-group {
+      margin: 20px 0;
+    }
+    
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    
+    .setting-item label {
+      font-size: 14px;
+    }
+    
+    .setting-description {
+      color: #666;
+      font-size: 12px;
+      margin: 4px 0 0 0;
+      max-width: 80%;
+    }
+    
+    .setting-value {
+      display: flex;
+      align-items: center;
+    }
+    
+    input[type="range"] {
+      width: 150px;
+    }
+    
+    .range-value {
+      font-size: 12px;
+      min-width: 30px;
+      text-align: center;
+      margin-left: 10px;
+    }
+    
+    select {
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: white;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    .danger-zone {
+      margin-top: 40px;
+      border: 1px solid #ffcccc;
+      border-radius: 6px;
+      padding: 15px;
+      background-color: #fff8f8;
+    }
+    
+    .danger-zone h2 {
+      color: #cc0000;
+      border-bottom-color: #ffcccc;
+    }
+    
+    .danger-button {
+      background-color: #cc0000;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    /* Dark mode styles */
+    .dark-mode {
+      background-color: #222;
+      color: #e0e0e0;
+    }
+    
+    .dark-mode h2 {
+      border-bottom-color: #444;
+    }
+    
+    .dark-mode .setting-description {
+      color: #aaa;
+    }
+    
+    .dark-mode select {
+      background-color: #333;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+    
+    .dark-mode .danger-zone {
+      background-color: #3a2a2a;
+      border-color: #663333;
+    }
+    
+    .dark-mode input[type="range"] {
+      background-color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1><img src="assets/logo.png" alt="GodsEye Logo">Advanced Settings</h1>
+  
+  <div class="settings-section">
+    <h2>Analysis Configuration</h2>
+    
+    <div class="setting-group">
+      <div class="setting-item">
+        <div>
+          <label for="analysis-delay">Analysis Delay</label>
+          <p class="setting-description">Time to wait before analyzing a page (seconds)</p>
+        </div>
+        <div class="setting-value">
+          <input type="range" id="analysis-delay" min="1" max="10" step="1" value="3">
+          <span class="range-value" id="analysis-delay-value">3</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="analysis-threshold">Minimum Content Length</label>
+          <p class="setting-description">Minimum article length required for analysis</p>
+        </div>
+        <div class="setting-value">
+          <input type="range" id="analysis-threshold" min="100" max="1000" step="100" value="300">
+          <span class="range-value" id="analysis-threshold-value">300</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="analysis-confidence">Minimum Confidence</label>
+          <p class="setting-description">Minimum confidence required for claims</p>
+        </div>
+        <div class="setting-value">
+          <input type="range" id="analysis-confidence" min="0" max="100" step="5" value="70">
+          <span class="range-value" id="analysis-confidence-value">70%</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="analysis-api">Analysis API</label>
+          <p class="setting-description">Choose which API to use for analysis</p>
+        </div>
+        <select id="analysis-api">
+          <option value="default">Default (Recommended)</option>
+          <option value="gemini">Gemini Only</option>
+          <option value="gpt">GPT Only</option>
+          <option value="hybrid">Hybrid (Multiple Models)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="settings-section">
+    <h2>Privacy Settings</h2>
+    
+    <div class="setting-group">
+      <div class="setting-item">
+        <div>
+          <label for="tracker-list">Tracker Blocking List</label>
+          <p class="setting-description">Choose which tracker list to use</p>
+        </div>
+        <select id="tracker-list">
+          <option value="standard">Standard (Default)</option>
+          <option value="strict">Strict</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="data-collection">Data Collection Level</label>
+          <p class="setting-description">Control what data is stored locally</p>
+        </div>
+        <select id="data-collection">
+          <option value="full">Full Analysis Data</option>
+          <option value="minimal">Minimal (URLs and Results Only)</option>
+          <option value="none">No History Storage</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="history-retention">History Retention Period</label>
+          <p class="setting-description">How long to keep history data</p>
+        </div>
+        <select id="history-retention">
+          <option value="30">30 days</option>
+          <option value="90">90 days</option>
+          <option value="365">1 year</option>
+          <option value="0">Indefinite</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="settings-section">
+    <h2>Notification Settings</h2>
+    
+    <div class="setting-group">
+      <div class="setting-item">
+        <div>
+          <label for="notification-frequency">Notification Frequency</label>
+          <p class="setting-description">How often to show notifications</p>
+        </div>
+        <select id="notification-frequency">
+          <option value="high">High (All Events)</option>
+          <option value="medium">Medium (Important Only)</option>
+          <option value="low">Low (Critical Only)</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="bias-threshold">Bias Alert Threshold</label>
+          <p class="setting-description">Minimum bias level to trigger alerts</p>
+        </div>
+        <div class="setting-value">
+          <input type="range" id="bias-threshold" min="30" max="90" step="5" value="70">
+          <span class="range-value" id="bias-threshold-value">70%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="settings-section">
+    <h2>Advanced Display</h2>
+    
+    <div class="setting-group">
+      <div class="setting-item">
+        <div>
+          <label for="font-size">Font Size</label>
+          <p class="setting-description">Adjust text size in the extension</p>
+        </div>
+        <div class="setting-value">
+          <input type="range" id="font-size" min="80" max="120" step="5" value="100">
+          <span class="range-value" id="font-size-value">100%</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="animation-speed">Animation Speed</label>
+          <p class="setting-description">Adjust animation transitions</p>
+        </div>
+        <select id="animation-speed">
+          <option value="none">No Animations</option>
+          <option value="slow">Slow</option>
+          <option value="normal">Normal</option>
+          <option value="fast">Fast</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label for="panel-position">Panel Position</label>
+          <p class="setting-description">Where to display the analysis panel</p>
+        </div>
+        <select id="panel-position">
+          <option value="right">Right Side</option>
+          <option value="left">Left Side</option>
+          <option value="bottom">Bottom</option>
+          <option value="floating">Floating (Draggable)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="danger-zone">
+    <h2>Danger Zone</h2>
+    
+    <div class="setting-group">
+      <div class="setting-item">
+        <div>
+          <label>Delete All Data</label>
+          <p class="setting-description">Remove all history, bookmarks, and settings</p>
+        </div>
+        <button class="danger-button" id="delete-all-data">Delete All Data</button>
+      </div>
+      
+      <div class="setting-item">
+        <div>
+          <label>Reset Extension</label>
+          <p class="setting-description">Reset extension to factory settings</p>
+        </div>
+        <button class="danger-button" id="reset-extension">Reset Extension</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="action-buttons">
+    <button id="cancel" class="action-btn">Cancel</button>
+    <button id="save-advanced-settings" class="action-btn primary">Save Settings</button>
+  </div>
+
+  <script src="advanced-settings.js"></script>
+</body>
+</html>

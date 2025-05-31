@@ -1,25 +1,25 @@
-{
-  "name": "Gods Eye",
+{  "name": "Gods Eye",
   "description": "Automated News Feedback System",
-  "version": "1.0.2",
+  "version": "1.2.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup/popup.html"
-  },
-  "content_scripts": [
+    "default_popup": "popup/popup.html"  },  "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["content-scripts/content-script.js"],
-      "css": ["content-scripts/content-script.css"]
-    }
-  ],
-  "permissions": ["activeTab"],
+      "css": [
+        "content-scripts/content-script.css",
+        "content-scripts/dark-mode.css",
+        "content-scripts/sentiment-display-fix.css"
+      ]
+    }],  "permissions": ["activeTab", "storage", "notifications", "alarms", "webRequest", "declarativeNetRequest"],
+  "host_permissions": ["http://localhost:8501/", "http://localhost:8502/", "http://localhost:8503/", "<all_urls>"],
   "web_accessible_resources": [
     {
-      "resources": ["*.js"],
+      "resources": ["*.js", "icons/*.svg", "assets/*"],
       "matches": ["<all_urls>"]
     }
   ]

@@ -20,9 +20,7 @@ def analyse() -> None:
         "<h1 style='text-align: center;'>Dashboard</h1>",
         unsafe_allow_html=True
     )
-    st.divider()
-
-    # Create a 4-column layout
+    st.divider()    # Create a 4-column layout
     col1, col2, col3, col4 = st.columns(4)
 
     # Display the article metadata in text inputs using session state
@@ -37,11 +35,72 @@ def analyse() -> None:
 
     with col4:
         col4 = st.text_input('Last Edited', value=st.session_state.get('edited_date', 'Unavailable'))
-
+        
     st.text_area('Article Summary', value=st.session_state.get('content', 'Unavailable'), height=150, help='Powered by Gemini')
 
-    authenticity = st.session_state.get('authenticity', 'Unavailable')
-    st.text_area('Article Authenticity', value=json.dumps(authenticity, indent=4), height=200, help='Powered by Gemini')
+    # Display authenticity and fact check information
+    authenticity = st.session_state.get('authenticity', {})
+    
+    # Create expandable sections for authenticity details
+    with st.expander("Article Authenticity", expanded=True):
+        # Display misinformation status if available
+        misinformation_status = authenticity.get('Misinformation Status', {})
+        if misinformation_status:
+            st.markdown("### Misinformation Analysis")
+            st.write(misinformation_status)
+        
+        # Display fact check results if available
+        fact_check_results = authenticity.get('Fact Check', {})
+        if fact_check_results and isinstance(fact_check_results, dict):
+            st.markdown("### Fact Check Results")
+            
+            # Display overall article status
+            article_status = fact_check_results.get('article_status', 'Unverified')
+            status_color = {
+                'True': 'green', 
+                'False': 'red', 
+                'Mixed': 'orange', 
+                'Unverified': 'grey'
+            }.get(article_status, 'grey')
+            
+            st.markdown(f"**Overall Status:** <span style='color:{status_color};'>{article_status}</span>", unsafe_allow_html=True)
+            
+            # Display verified claims
+            verified_claims = fact_check_results.get('verified_claims', [])
+            if verified_claims:
+                st.markdown("#### Verified Claims:")
+                for i, claim_data in enumerate(verified_claims):
+                    claim = claim_data.get('claim', '')
+                    verification = claim_data.get('verification', {})
+                    status = verification.get('status', 'Unknown')
+                    
+                    # Set color based on status
+                    color = {
+                        'True': 'green', 
+                        'False': 'red', 
+                        'Mixed': 'orange'
+                    }.get(status, 'grey')
+                    
+                    st.markdown(f"**Claim {i+1}:** {claim}")
+                    st.markdown(f"**Status:** <span style='color:{color};'>{status}</span>", unsafe_allow_html=True)
+                    
+                    # Display sources
+                    sources = verification.get('sources', [])
+                    if sources:
+                        st.markdown("**Sources:**")
+                        for source in sources:
+                            source_name = source.get('name', 'Unknown')
+                            source_url = source.get('url', '#')
+                            source_rating = source.get('rating', 'Unknown')
+                            st.markdown(f"- [{source_name}]({source_url}): {source_rating}")
+                    
+                    st.markdown("---")
+            else:
+                st.write("No specific claims were verified.")
+        else:
+            # If no fact check results available
+            st.markdown("### Authenticity Analysis")
+            st.write(json.dumps(authenticity, indent=4))
 
     st.divider()
 

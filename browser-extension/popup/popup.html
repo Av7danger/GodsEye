@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GodsEye</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="../assets/logo.png" alt="GodsEye Logo" class="logo">
+      <h1>GodsEye</h1>
+    </header>
+    
+    <div class="tabs">
+      <button id="tab-info" class="tab-btn active">Information</button>
+      <button id="tab-bookmarks" class="tab-btn">Bookmarks</button>
+      <button id="tab-history" class="tab-btn">History</button>
+      <button id="tab-settings" class="tab-btn">Settings</button>
+    </div>
+    
+    <div id="info-content" class="tab-content active">
+      <h2>About GodsEye</h2>      <p>GodsEye is an automated news feedback system that helps you analyze news articles for bias, sentiment, and authenticity.</p>
+      <p>Visit a news article and click the GodsEye icon to analyze the content.</p>
+      <div class="version">Version 1.2.0</div>
+    </div>
+    
+    <div id="bookmarks-content" class="tab-content">
+      <h2>Saved Articles</h2>
+      <div class="search-bar">
+        <input type="text" id="search-bookmarks" placeholder="Search bookmarks...">
+      </div>
+      <div id="bookmarks-list">
+        <!-- Bookmarks will be populated here by JavaScript -->
+        <div class="empty-state">No bookmarked articles yet</div>
+      </div>
+    </div>
+    
+    <div id="history-content" class="tab-content">
+      <h2>Recently Analyzed</h2>
+      <div class="search-bar">
+        <input type="text" id="search-history" placeholder="Search history...">
+      </div>
+      <div id="history-list">
+        <!-- History will be populated here by JavaScript -->
+        <div class="empty-state">No articles in history yet</div>
+      </div>
+      <div class="clear-history-container">
+        <button id="clear-history" class="action-btn">Clear History</button>
+      </div>
+    </div>
+    
+    <div id="settings-content" class="tab-content">
+      <h2>Settings</h2>
+      <div class="settings-group">
+        <h3>Appearance</h3>
+        <div class="setting-item">
+          <label for="dark-mode-toggle">Dark Mode</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="settings-group">
+        <h3>Notifications</h3>
+        <div class="setting-item">
+          <label for="notification-toggle">Enable Notifications</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notification-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+        <div class="settings-group">
+        <h3>Analysis</h3>
+        <div class="setting-item">
+          <label for="auto-analyze-toggle">Auto-analyze News Articles</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="auto-analyze-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="browser-notification-toggle">Browser Notifications</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="browser-notification-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Privacy Protection</h3>
+        <div class="setting-item">
+          <label for="tracker-blocking-toggle">Block Trackers</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="tracker-blocking-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="privacy-mode-toggle">Enhanced Privacy Mode</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="privacy-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>      <div class="settings-group">
+        <h3>API Configuration</h3>
+        <div class="setting-item">
+          <label for="use-api-toggle">Use API for Analysis</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="use-api-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item api-url-container">
+          <label for="api-url">API URL</label>
+          <input type="text" id="api-url" value="http://localhost:8503/api" class="text-input">
+        </div>
+        <div class="setting-action">
+          <button id="test-api" class="action-btn">Test API Connection</button>
+        </div>
+        <div id="api-status" class="api-status"></div>
+      </div>
+      
+      <div class="settings-group">
+        <h3>Data Management</h3>
+        <div class="data-export-options">
+          <button id="export-history" class="action-btn">Export Analysis History</button>
+          <button id="export-bookmarks" class="action-btn">Export Bookmarks</button>
+        </div>
+        <div class="data-import">
+          <label for="import-data" class="file-import-label">Import Data</label>
+          <input type="file" id="import-data" accept=".json" class="file-input">
+        </div>
+      </div>
+      
+      <div class="settings-actions">
+        <button id="reset-settings" class="action-btn">Reset to Default</button>
+        <button id="advanced-settings" class="action-btn">Advanced Settings</button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

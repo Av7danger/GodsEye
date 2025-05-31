@@ -4,8 +4,9 @@ import re
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
-# Local project-specific imports: Gemini AI model
+# Local project-specific imports: Gemini AI model and News Verifier
 from gemini import perspec
+from news_verifier import NewsVerifier
 
 async def ndtv_archive(url: str, topic: str, limit: int) -> list:
     try:
@@ -54,6 +55,9 @@ async def ndtv_archive(url: str, topic: str, limit: int) -> list:
 
 async def ndtv_url(url: str) -> dict:
     try:
+        # Initialize the news verifier
+        verifier = NewsVerifier()
+        
         # Send an asynchronous HTTP GET request to the NDTV article URL and parse the HTML content
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
@@ -79,6 +83,11 @@ async def ndtv_url(url: str) -> dict:
         article_body = soup.find('div', id='ins_storybody')
         raw_content = article_body.get_text(strip=True) if article_body else None
         filtered_content = re.sub(r'[^\x20-\x7E]', '', raw_content) if raw_content else None
+        
+        # Verify the article claims if content is available
+        fact_check_results = None
+        if filtered_content:
+            fact_check_results = await verifier.verify_article_claims(filtered_content)
 
         # Construct a dictionary of the extracted article data and pass it through the Gemini AI model
         article_data = {
@@ -87,7 +96,10 @@ async def ndtv_url(url: str) -> dict:
             'publication_date': date,
             'edited_date': date,
             'content': filtered_content,
-            'authenticity': None,
+            'authenticity': {
+                'Fact Check': fact_check_results,
+                'Misinformation Status': None
+            },
             'category': None,
             'highlight': None,
             'organization': None,

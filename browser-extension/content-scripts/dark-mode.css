@@ -1,0 +1,67 @@
+/* Dark mode styles for GodsEye extension */
+#content-div.dark-mode {
+  background-color: #1e1e1e;
+  color: #e0e0e0 !important;
+  border-color: #333;
+}
+
+#content-div.dark-mode #nav {
+  border-bottom-color: #444;
+}
+
+#content-div.dark-mode .header-wrapper {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+#content-div.dark-mode .content {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+#content-div.dark-mode .header-wrapper:hover {
+  background-color: #3d3d3d;
+}
+
+#content-div.dark-mode hr {
+  border-color: #444;
+}
+
+#content-div.dark-mode .reliability-indicator {
+  background-color: #2d2d2d;
+}
+
+#content-div.dark-mode .reliability-indicator.reliable {
+  color: #66bb6a;
+}
+
+#content-div.dark-mode .reliability-indicator.unreliable {
+  color: #ef5350;
+}
+
+#content-div.dark-mode .claims-list {
+  border-color: #444;
+}
+
+#content-div.dark-mode .button {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+#content-div.dark-mode .button:hover {
+  background-color: #555;
+}
+
+#content-div.dark-mode #status-indicator.reliable {
+  color: #66bb6a;
+}
+
+#content-div.dark-mode #status-indicator.unreliable {
+  color: #ef5350;
+}
+
+/* Dark mode icon colors */
+#content-div.dark-mode .icon-svg path {
+  fill: #e0e0e0;
+}

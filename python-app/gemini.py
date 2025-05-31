@@ -30,7 +30,9 @@ safety_settings = [
 ]
 
 # Load system instructions for the Gemini model
-with open('metadata/gemini_instructions.md', 'r') as file:
+import os
+instructions_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'metadata/gemini_instructions.md')
+with open(instructions_path, 'r') as file:
     gemini_instructions = file.read()
 
 # Initialize the Gemini model with custom settings and instructions

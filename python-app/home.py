@@ -6,6 +6,7 @@ from datetime import datetime
 
 # Local project-specific imports: custom CSS and person card components
 from utils import custom_css, person_card
+from auth import get_current_user
 
 # NOTE: session_state is a Streamlit feature that allows storing data across pages
 # Reference: https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state
@@ -23,6 +24,21 @@ def home() -> None:
         unsafe_allow_html=True
     )
     st.divider()
+    
+    # Check if user is logged in and display greeting
+    current_user = get_current_user()
+    if current_user:
+        st.success(f"Welcome, {current_user['username']}!")
+    else:
+        # Display login/register buttons
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Login", use_container_width=True):
+                st.switch_page("pages/8_authentication.py")
+        with col2:
+            if st.button("Register", use_container_width=True):
+                st.switch_page("pages/8_authentication.py")
+    
     st.info('NOTE: The application is currently in alpha phase. Some features are limited and undergoing development.', icon=':material/info:')
 
     # Load news sources and topics for the search functionality

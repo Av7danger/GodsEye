@@ -24,9 +24,15 @@ Additionally, the system includes a chatbot (powered by Gemini API) that provide
   <strong>Data Analysis</strong>
 </p>
 
-**Gemini API**: Provides sentiment analysis, media analysis, and fake news detection services.
+**Gemini API**: Provides sentiment analysis, media analysis, and fake news detection services. See [GEMINI_INTEGRATION.md](GEMINI_INTEGRATION.md) for detailed setup instructions.
 
 **Database Storage**: Utilizes the `MongoDB` database to store responses from the Gemini API.
+
+**User Authentication**: Secure user authentication system with JWT token-based sessions.
+
+**Trend Analysis**: Historical analysis of news sentiment, topics, and misinformation trends.
+
+**Comparative Analysis**: Side-by-side comparison of how different sources cover the same event.
 
 ---
 
@@ -36,7 +42,7 @@ Additionally, the system includes a chatbot (powered by Gemini API) that provide
 
 **User Interface**: Utilizes the `Streamlit` framework to generate graphs using the `Plotly` library for visualization of scraped data.
 
-**Chrome Extension**: Provides real-time fake news detection on news articles (Manifest V3).
+**Chrome Extension**: Provides real-time fake news detection on news articles (Manifest V3). Includes bookmark functionality to save and manage analyzed articles.
 
 ---
 
@@ -98,6 +104,13 @@ Follow these steps to set up and run the GodsEye software on your local machine,
    api_key = "your_gemini_api_key"
    ```
 
+   - OR use our setup script to configure the Gemini API key:
+
+   ```shell
+   python setup_gemini_api.py
+   ```
+   This will guide you through getting and setting up a Gemini API key.
+
 7. Set up the Chrome extension:
    - Open Chrome and go to `chrome://extensions`.
    - Enable "Developer mode" (top right corner).
@@ -112,18 +125,34 @@ Follow these steps to set up and run the GodsEye software on your local machine,
    python python-app/app.py
    ```
 
-2. Using the Browser Extension:
+2. Start the API server for the Chrome extension:
+
+   ```shell
+   python python-app/api_simple.py
+   ```
+
+3. To test the Chrome extension with a sample page:
+
+   ```shell
+   python setup_test_environment.py
+   ```
+   
+   This will start both the API server and a test webpage server, opening a sample news article for testing.
+
+4. Using the Browser Extension:
 
    - Navigate to any of the following supported websites:
 
      - https://www.ndtv.com
+     - Or use the test page at http://localhost:8000/test_page.html
 
      **NOTE**: The subdomain https://www.ndtvprofit.com is currently unsupported due to a different HTML structure.
 
    - Select and open any article. The browser extension will be displayed on the right side of the screen. Click on the extension icon to access detailed information.
 
-3. For Contributors:
+5. For Contributors:
    - To apply changes made to the browser extension, visit `chrome://extensions`, click the "Update" button at the top left, and reload the article page to see the updates.
+   - See the detailed extension guide in `EXTENSION_GUIDE.md` for more information.
 
 ## License
 
