@@ -1,6 +1,59 @@
 console.log("content-script.js loaded");
 
 /**
+ * Shows a toast notification with the specified message
+ * @param {string} message - The message to display in the toast
+ * @param {number} duration - How long to show the toast in milliseconds
+ */
+function showToast(message, duration = 3000) {
+  // Check if toast container exists, create if not
+  let toastContainer = document.getElementById('gods-eye-toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'gods-eye-toast-container';
+    toastContainer.style.position = 'fixed';
+    toastContainer.style.bottom = '20px';
+    toastContainer.style.right = '20px';
+    toastContainer.style.zIndex = '10000';
+    document.body.appendChild(toastContainer);
+  }
+  
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = 'gods-eye-toast';
+  toast.style.backgroundColor = '#333';
+  toast.style.color = 'white';
+  toast.style.padding = '12px 20px';
+  toast.style.borderRadius = '4px';
+  toast.style.marginTop = '10px';
+  toast.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+  toast.style.minWidth = '200px';
+  toast.style.opacity = '0';
+  toast.style.transition = 'opacity 0.3s ease-in-out';
+  toast.textContent = message;
+  
+  // Add toast to container
+  toastContainer.appendChild(toast);
+  
+  // Trigger animation
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 10);
+  
+  // Remove toast after duration
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      toastContainer.removeChild(toast);
+      // Remove container if no more toasts
+      if (toastContainer.children.length === 0) {
+        document.body.removeChild(toastContainer);
+      }
+    }, 300);
+  }, duration);
+}
+
+/**
  * Creates and appends an SVG element to a specified parent element.
  * @param {string} svgString - The SVG string to be parsed and appended.
  * @param {string} parentId - The ID of the parent element to which the SVG will be appended.
@@ -112,10 +165,43 @@ contentDiv.appendChild(nav);
   let functionIconDiv = document.createElement("div");
   functionIconDiv.id = "function-icon-div";
   nav.appendChild(functionIconDiv);
-
   await getAndAppendIcon("info", "function-icon-div", "info-svg");
   await getAndAppendIcon("flag", "function-icon-div", "flag-svg");
   await getAndAppendIcon("share", "function-icon-div", "share-svg");
+  await getAndAppendIcon("bookmark", "function-icon-div", "bookmark-svg", () => {
+    // Save current analysis to chrome.storage
+    const articleData = {
+      url: window.location.href,
+      title: document.title,
+      date: new Date().toISOString(),
+      analysisData: {
+        summary: document.getElementById('summary-content')?.textContent || '',
+        positive: document.getElementById('positive-content')?.textContent || '',
+        negative: document.getElementById('negative-content')?.textContent || '',
+        authenticity: document.getElementById('authenticity-content')?.textContent || '',
+        positivePercent: document.getElementById('positive-percent')?.textContent || '0%',
+        negativePercent: document.getElementById('negative-percent')?.textContent || '0%'
+      }
+    };
+    
+    chrome.storage.local.get('savedArticles', (data) => {
+      let savedArticles = data.savedArticles || [];
+      // Check if article is already saved
+      const existingIndex = savedArticles.findIndex(article => article.url === articleData.url);
+      
+      if (existingIndex >= 0) {
+        // Update existing article
+        savedArticles[existingIndex] = articleData;
+        showToast("Article analysis updated in bookmarks");
+      } else {
+        // Add new article
+        savedArticles.push(articleData);
+        showToast("Article analysis saved to bookmarks");
+      }
+      
+      chrome.storage.local.set({savedArticles});
+    });
+  });
   await getAndAppendIcon("close", "function-icon-div", "close-svg", () => {
     contentDiv.style.display = "none";
   });
